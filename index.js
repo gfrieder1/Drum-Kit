@@ -1,13 +1,17 @@
+document.addEventListener("keydown", function () {
+  makeSound(event.key);
+  buttonAnimation(event.key);
+});
 document.querySelectorAll(".drum").forEach(button => {
-  button.addEventListener("click", handleClick);
+  button.addEventListener("click", function() {
+    makeSound(this.innerHTML);
+    buttonAnimation(this.innerHTML);
+  });
 });
 
-function handleClick() {
-  this.style.color = "white";
+function makeSound(key) {
 
-  var buttonLetter = this.innerHTML;
-
-  switch (buttonLetter) {
+  switch (key) {
     case 'w':
       var audio = new Audio("sounds/tom-1.mp3");
       audio.play();
@@ -37,7 +41,16 @@ function handleClick() {
       audio.play();
       break;
     default:
-      console.log("Invalid handleClick() trigger on button letter: " + button.innerHTML);
+      console.log("Invalid makeSound() trigger on button letter: " + key);
       break;
   }
+}
+
+function buttonAnimation(key) {
+  var button = document.querySelector("." + key);
+  button.classList.add("pressed");
+
+  setTimeout(function() {
+    button.classList.remove("pressed");
+  }, 100);
 }
